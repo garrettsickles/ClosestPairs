@@ -9,13 +9,13 @@ Heuristic (LR)    | 0.069
 Divide & Conquer  | 0.074
 
 ## Method 1: Divide and Conquer
-The first approach to solving the  is a divide and conquer approach. This approach achieves a time complexity of O(nlog(n)) by using basic computational geometry to rule out many of the possibilities. This approach is implemented in *working.cpp*.
+The first approach to solving the  is a divide and conquer approach. This approach achieves a time complexity of O(nlog(n)) by using basic computational geometry to rule out many of the possibilities. This approach is implemented in this [divide and conquer](src/working.cpp) file.
 
 ### Specifications
 Compiler:  C++ 4.8.2 - GNU C++ Compiler with options: -lm -lcrypt -O2 -pipe -DONLINE_JUDGE
 
 ## Method 2: L-R Heuristic
-The second approach to solving the closest pair problem is a left to right heuristic where we compute the distance between the two left most points and proceed right, recalculating is the x distance is less than the closest previous distance. This approach achieves a time complexity of O(n<sup>2</sup>). This approach is implemented in *heuristic.c*.
+The second approach to solving the closest pair problem is a left to right heuristic where we compute the distance between the two left most points and proceed right, recalculating is the x distance is less than the closest previous distance. This approach achieves a time complexity of O(n<sup>2</sup>). This approach is implemented in this [heuristic](src/heuristic.c) file.
 
 ### Specifications
 Compiler: ANSI C 4.8.2 - GNU C Compiler with options: -lm -lcrypt -O2 -pipe -ansi -DONLINE_JUDGE
