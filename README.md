@@ -1,7 +1,7 @@
 # ClosestPairs
 Various methods of solving the [closest pairs problem](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1186).
 
-## Method 1: Divide and Conqquer
+## Method 1: Divide and Conquer
 The first approach to solving the  is a divide and conquer approach. This approach achieves a time complexity of O(nlog(n)) by using basic computational geometry to rule out many of the possibilities. This approach is implemented in *working.cpp*.
 
 
