@@ -6,4 +6,4 @@ The first approach to solving the  is a divide and conquer approach. This approa
 
 
 ## Method 2: L-R Heuristic
-The second approach to solving the closest pair problem is a left to right heuristic where we compute the distance between the two left most points and proceed right, recalculating is the x distance is less than the closest previous distance. This approach is implemented in *alternate.cpp*.
+The second approach to solving the closest pair problem is a left to right heuristic where we compute the distance between the two left most points and proceed right, recalculating is the x distance is less than the closest previous distance. This approach achieves a time complexity of O(n<sup>2</sup>). This approach is implemented in *alternate.cpp*.
