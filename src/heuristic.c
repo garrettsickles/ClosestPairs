@@ -78,7 +78,7 @@ void find_closest_pair()
 	}
 }
 
-int main()
+int LRHeuristic()
 {
 	int i;
 
