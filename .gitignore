@@ -9,3 +9,4 @@ Debug
 *.o
 *.a
 *.out
+*.exe

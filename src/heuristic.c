@@ -1,4 +1,6 @@
 #include <math.h>
+#include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 #define MAX_NUM_POINTS 40000
@@ -17,24 +19,23 @@ double MAX_DISTANCE = 10000.0;
 
 int point_count;
 int right, left;
-double x_buffer;
-double y_buffer;
-double buffer;
+double buffer[2];
+double hyp_buffer;
 double hyp_area;
 double hyp_length;
 
 
 void swap_points(int l, int r)
 {
-	x_buffer		=	points[l][0];
-	y_buffer		=	points[l][1];
+	buffer[0]		=	points[l][0];
+	buffer[1]		=	points[l][1];
 	points[l][0]	=	points[r][0];
 	points[l][1]	=	points[r][1];
-	points[r][0]	=	x_buffer;
-	points[r][1]	=	y_buffer;
+	points[r][0]	=	buffer[0];
+	points[r][1]	=	buffer[1];
 }
 
-void sort_LR(int l, int r)
+void quicksort(int l, int r)
 {
 	int i = l;
 	int j = r;
@@ -48,8 +49,8 @@ void sort_LR(int l, int r)
 		if(i <= j) swap_points(i++, j--);
 	}
 
-	if(l < j) sort_LR(l, j);
-	if(i < r) sort_LR(i, r);
+	if(l < j) quicksort(l, j);
+	if(i < r) quicksort(i, r);
 }
 
 void find_closest_pair()
@@ -60,17 +61,17 @@ void find_closest_pair()
 	if(point_count < 2) return;
 	else
 	{
-		sort_LR(0, point_count-1);
+		quicksort(0, point_count-1);
 		for(right = 1; right < point_count; right++)
 		{
 			for(left = right-1; left >= 0 && points[left][0] > (points[right][0] - hyp_length); left--)
 			{
 				if(points[left][1] < (points[right][1] + hyp_length) && points[left][1] > (points[right][1] - hyp_length)) {
-					buffer = HYPOTENUSE_AREA(left, right);
-					if(buffer < hyp_area)
+					hyp_buffer = HYPOTENUSE_AREA(left, right);
+					if(hyp_buffer < hyp_area)
 					{
-						hyp_area = buffer;
-						hyp_length = sqrt(buffer);
+						hyp_area = hyp_buffer;
+						hyp_length = sqrt(hyp_buffer);
 					}
 				}
 			}
@@ -78,50 +79,56 @@ void find_closest_pair()
 	}
 }
 
-int LRHeuristic()
+int main()
 {
 	int i;
 
-	#ifdef ONLINE_JUDGE
+#ifdef ONLINE_JUDGE
 	while(1)
 	{
 		scanf("%d", &point_count);
 
 		if(point_count == 0) break;
 
-		for(i = 0; i < point_count; i++) scanf("%lf %lf", &points[i][1], &points[i][0]);
-
-		find_closest_pair();
-
-		if(hyp_length >= MAX_DISTANCE) printf("%s","INFINITY\n");
-		else printf("%.4lf\n", hyp_length);
+		for(i = 0; i < point_count; i++) scanf("%lf %lf", &points[i][0], &points[i][1]);
 	}
-	#else
+#else
 	FILE *file;
 	char filename[15];
-	printf("Enter Input Filename (15 Characters Max): ");
+	printf("Enter Input Filename (15 Characters Max) or RANDOM for random input: ");
 	scanf("%s", filename);
 
-	if((file = fopen(filename,"r")) == NULL)
+	if(strcmp(filename, "RANDOM") == 0)
 	{
-		printf("\nInvalid Filename, \'%s\'...\nNow Exiting!\n\n", filename);
+		time_t t;
+		srand((unsigned)time(&t));
+
+		printf("How many points?\n");
+		scanf("%d", &point_count);
+
+		for(i = 0; i < point_count; i++)
+		{
+			points[i][0] = ((double)(rand())/(double)(RAND_MAX))*20000.0 + ((double)(rand())/(double)(RAND_MAX))*20000.0+((double)(rand())/(double)(RAND_MAX));
+			points[i][1] = ((double)(rand())/(double)(RAND_MAX))*20000.0 + ((double)(rand())/(double)(RAND_MAX))*20000.0+((double)(rand())/(double)(RAND_MAX));
+		}
 	}
 	else
 	{
+		if((file = fopen(filename,"r")) == NULL)
+		{
+			printf("\nInvalid Filename, \'%s\'...\nNow Exiting!\n\n", filename);
+			return 0;
+		}
 		while(1)
 		{
 			fscanf(file, "%d", &point_count);
-
 			if(point_count == 0) break;
-			
 			for(i = 0; i < point_count; i++) fscanf(file, "%lf %lf", &points[i][0], &points[i][1]);
-			find_closest_pair();
-			
-			if(hyp_length >= MAX_DISTANCE) printf("%s","INFINITY\n");
-			else printf("%.4lf\n", hyp_length);
 		}
 	}
-	#endif
-
+#endif
+	find_closest_pair();
+	if(hyp_length >= MAX_DISTANCE) printf("%s","INFINITY\n");
+	else printf("%.4lf\n", hyp_length);
 	return 0;
 }
