@@ -27,8 +27,8 @@ double hyp_length;
 
 void swap_points(int l, int r)
 {
-	buffer[0]		=	points[l][0];
-	buffer[1]		=	points[l][1];
+	buffer[0]	=	points[l][0];
+	buffer[1]	=	points[l][1];
 	points[l][0]	=	points[r][0];
 	points[l][1]	=	points[r][1];
 	points[r][0]	=	buffer[0];
